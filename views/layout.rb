@@ -1,8 +1,6 @@
 require "phlex"
 
 class Layout < Phlex::HTML
-  register_element :di
-
   def template(&block)
     html do
       head do

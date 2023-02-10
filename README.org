@@ -1,0 +1,7 @@
+* HTMX
+
+https://htmx.org/examples/
+
+* Skelet
+
+https://selekkt.dk/skelet/v3/
