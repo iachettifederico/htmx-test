@@ -7,9 +7,9 @@ class Contacts < Layout
     super do
       h1 { "Contacts" }
 
-      users.map do |user|
+      users.each do |user|
 
-        unsafe_raw Contact.new(user).call
+        unsafe_raw ContactCard.new(user).call
 
       end
     end

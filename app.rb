@@ -60,7 +60,7 @@ class App < Roda
         r.put do
           USERS[id] = r.params
 
-          Contact.new(USERS[id]).call
+          ContactCard.new(USERS[id]).call
         end
       end
     end
