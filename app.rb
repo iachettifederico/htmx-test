@@ -22,14 +22,14 @@ class App < Roda
   plugin :render, engine: "slim"
   plugin :all_verbs
 
-  USERS = [
-    {
+  USERS = {
+    "1" => {
       "id"         => "1",
       "first_name" => "Fede",
       "last_name"  => "Iache",
       "email"      => "fede@example.com",
     },
-  ]
+  }
 
   route do |r|
 
@@ -39,19 +39,21 @@ class App < Roda
 
 
     r.root do
-      Contacts.new(USERS).call
+      Contacts.new(USERS.values).call
     end
 
     r.on "contact" do
       r.on :id do |id|
-        user = USERS.find { |user| user["id"] == "1" }
+        user = USERS.fetch(id)
 
         r.is "edit" do
           ContactForm.new(user).call
         end
 
         r.put do
-          user.inspect
+          USERS[id] = r.params
+
+          Contacts.new(USERS.values).call
         end
       end
     end

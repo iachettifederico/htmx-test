@@ -6,6 +6,7 @@ class ContactForm < Layout
   def template
     super do
       form(hx_put: "/contact/#{user["id"]}", hx_target: "this", hx_swap: "outerHTML") do
+        input(name: "id", value: user["id"], type: "hidden")
         div do
           label { "First Name" }
           input(name: "first_name", value: user["first_name"])
