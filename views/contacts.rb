@@ -7,25 +7,10 @@ class Contacts < Layout
     super do
       h1 { "Contacts" }
 
-      users.each do |user|
-        div(hx_target: "this", hx_swap: "outerHTML") do
-          div do
-            label { "First Name" }
-            text ": #{user["first_name"]}"
-          end
-          div do
-            label { "Last Name" }
-            text ": #{user["last_name"]}"
-          end
-          div do
-            label { "Email" }
-            text ": #{user["email"]}"
-          end
+      users.map do |user|
 
-          button(hx_get: "/contact/#{user["id"]}/edit", class: "btn btn-primary") do
-            " Click To Edit "
-          end
-        end
+        unsafe_raw Contact.new(user).call
+
       end
     end
   end

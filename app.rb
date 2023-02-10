@@ -25,10 +25,17 @@ class App < Roda
   USERS = {
     "1" => {
       "id"         => "1",
-      "first_name" => "Fede",
-      "last_name"  => "Iache",
-      "email"      => "fede@example.com",
+      "first_name" => "uno",
+      "last_name"  => "uno",
+      "email"      => "uno@example.com",
     },
+    "2" => {
+      "id"         => "2",
+      "first_name" => "dos",
+      "last_name"  => "dos",
+      "email"      => "dos@example.com",
+    },
+
   }
 
   route do |r|
@@ -53,7 +60,7 @@ class App < Roda
         r.put do
           USERS[id] = r.params
 
-          Contacts.new(USERS.values).call
+          Contact.new(USERS[id]).call
         end
       end
     end
