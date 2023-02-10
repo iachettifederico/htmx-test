@@ -24,27 +24,12 @@ class App < Roda
 
   USERS = %w[tito toto tete tita tota tato].each_with_object({}) { |slug, users_hash|
     users_hash[slug] = {
-      "slug" => slug,
-      "name" => slug.capitalize,
-      "email" => "slug@example.com",
+      "slug"   => slug,
+      "name"   => slug.capitalize,
+      "email"  => "#{slug}@example.com",
+      "status" => "active",
     }
   }
-
-  # USERS = {
-  #   "1" => {
-  #     "id"         => "1",
-  #     "first_name" => "uno",
-  #     "last_name"  => "uno",
-  #     "email"      => "uno@example.com",
-  #   },
-  #   "2" => {
-  #     "id"         => "2",
-  #     "first_name" => "dos",
-  #     "last_name"  => "dos",
-  #     "email"      => "dos@example.com",
-  #   },
-
-  # }
 
   route do |r|
 
@@ -54,7 +39,7 @@ class App < Roda
 
 
     r.root do
-      Contacts.new(USERS.values).call
+      Landing.new(USERS.values).call
     end
 
     r.on "contact" do
@@ -75,6 +60,16 @@ class App < Roda
           ContactCard.new(USERS[slug]).call
         end
       end
+    end
+
+    r.is "change_status", :status do |status|
+      r.params["slugs"].each do |slug|
+        USERS[slug]["status"] = status
+      end
+
+      ap USERS
+      
+      StatusRows.new(USERS.values).call
     end
   end
 end

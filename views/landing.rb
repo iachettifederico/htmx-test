@@ -1,4 +1,4 @@
-class Contacts < Layout
+class Landing < Layout
   def initialize(users)
     @users = users
   end
@@ -8,10 +8,12 @@ class Contacts < Layout
       h1 { "Contacts" }
 
       users.each do |user|
-
         unsafe_raw ContactCard.new(user).call
-
       end
+
+      hr
+
+      unsafe_raw BulkUpdate.new(users).call
     end
   end
 

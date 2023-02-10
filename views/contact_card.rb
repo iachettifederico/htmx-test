@@ -14,6 +14,11 @@ class ContactCard < Layout
           span { "Email: " }
           span { user["email"] }
         end
+        div do
+          span { "Status: " }
+          span { user["status"] }
+        end
+
 
         button(hx_get: "/contact/#{user["slug"]}/edit", class: "btn btn-primary") do
           "Click To Edit"

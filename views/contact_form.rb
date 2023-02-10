@@ -15,6 +15,13 @@ class ContactForm < Layout
           label { "Email Address" }
           input(type: "email", name: "email", value: user["email"])
         end
+        div(class: "form-group") do
+          label { "Status" }
+          select(name: "status") do
+            option(value: "active", selected: user["status"] == "active")     { "Active" }
+            option(value: "inactive", selected: user["status"] == "inactive") { "Inactive" }
+          end
+        end
         button(class: "btn") { "Submit" }
         button(class: "btn", hx_get: "/contact/#{user["slug"]}/") { "Cancel" }
       end
