@@ -19,16 +19,17 @@ end
 class App < Roda
 
   plugin :sessions, secret: ?a * 64
-  plugin :json
   plugin :render, engine: "slim"
+  plugin :all_verbs
 
-  USERS = {
-    "1" => {
+  USERS = [
+    {
+      "id"         => "1",
       "first_name" => "Fede",
       "last_name"  => "Iache",
-      "email"      => "fede@example.com"
-    }
-  }
+      "email"      => "fede@example.com",
+    },
+  ]
 
   route do |r|
 
@@ -36,9 +37,23 @@ class App < Roda
     ap r.params
     puts "  >>>>> #{__FILE__}:#{__LINE__}".purple
 
+
     r.root do
-      Contact.new.call
+      Contacts.new(USERS).call
     end
 
+    r.on "contact" do
+      r.on :id do |id|
+        user = USERS.find { |user| user["id"] == "1" }
+
+        r.is "edit" do
+          ContactForm.new(user).call
+        end
+
+        r.put do
+          user.inspect
+        end
+      end
+    end
   end
 end
