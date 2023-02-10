@@ -53,6 +53,10 @@ class App < Roda
       r.on :id do |id|
         user = USERS.fetch(id)
 
+        r.root do
+          ContactCard.new(user).call
+        end
+        
         r.is "edit" do
           ContactForm.new(user).call
         end

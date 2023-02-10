@@ -20,7 +20,7 @@ class ContactForm < Layout
           input(type: "email", name: "email", value: user["email"])
         end
         button(class: "btn") { "Submit" }
-        button(class: "btn", hx_get: "/contact/1") { "Cancel" }
+        button(class: "btn", hx_get: "/contact/#{user["id"]}/") { "Cancel" }
       end
     end
   end
