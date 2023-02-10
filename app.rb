@@ -1,4 +1,9 @@
 require "roda"
+require "amazing_print"
+AmazingPrint.defaults = {
+  indent: 2,
+  index:  false,
+}
 
 require "amazing_print"
 AmazingPrint.defaults = {
@@ -6,32 +11,34 @@ AmazingPrint.defaults = {
   index:  false,
 }
 
+require "./views/layout"
+Dir["./views/*.rb"].entries.each do |file|
+  require file
+end
+
 class App < Roda
 
   plugin :sessions, secret: ?a * 64
   plugin :json
   plugin :render, engine: "slim"
 
+  USERS = {
+    "1" => {
+      "first_name" => "Fede",
+      "last_name"  => "Iache",
+      "email"      => "fede@example.com"
+    }
+  }
+
   route do |r|
+
+    puts "  >>>>> #{__FILE__}:#{__LINE__}".purple
+    ap r.params
+    puts "  >>>>> #{__FILE__}:#{__LINE__}".purple
+
     r.root do
-      { status: :OK, message: "api working"}
+      Contact.new.call
     end
 
-    r.is "dropdown" do
-      view "dropdown"
-    end
-
-    r.is "frameworks" do
-      frameworks_list = {
-        "Ruby" => %w[Roda Hanami Rails],
-        "Python" => %w[Django Flask],
-        "JavaScript" => %w[Express AngularJS]
-      }
-      view "frameworks", locals: { frameworks: frameworks_list.fetch(r.params["language"]) }
-    end
-
-    r.is "search" do
-      %w[uno dos tres cuatro]
-    end
   end
 end
