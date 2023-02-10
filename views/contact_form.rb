@@ -5,22 +5,18 @@ class ContactForm < Layout
 
   def template
     super do
-      form(hx_put: "/contact/#{user["id"]}", hx_target: "this", hx_swap: "outerHTML") do
-        input(name: "id", value: user["id"], type: "hidden")
+      form(hx_put: "/contact/#{user["slug"]}", hx_target: "this", hx_swap: "outerHTML") do
+        input(name: "slug", value: user["slug"], type: "hidden")
         div do
-          label { "First Name" }
-          input(name: "first_name", value: user["first_name"])
-        end
-        div(class: "form-group") do
-          label { "Last Name" }
-          input(name: "last_name", value: user["last_name"])
+          label { "Name" }
+          input(name: "name", value: user["name"])
         end
         div(class: "form-group") do
           label { "Email Address" }
           input(type: "email", name: "email", value: user["email"])
         end
         button(class: "btn") { "Submit" }
-        button(class: "btn", hx_get: "/contact/#{user["id"]}/") { "Cancel" }
+        button(class: "btn", hx_get: "/contact/#{user["slug"]}/") { "Cancel" }
       end
     end
   end

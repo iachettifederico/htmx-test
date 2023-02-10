@@ -7,19 +7,15 @@ class ContactCard < Layout
     super do
       article(hx_target: "this", hx_swap: "outerHTML") do
         div do
-          label { "First Name:" }
-          span { user["first_name"] }
+          span { "Name: " }
+          span { user["name"] }
         end
         div do
-          label { "Last Name:" }
-          span { user["last_name"] }
-        end
-        div do
-          label { "Email:" }
+          span { "Email: " }
           span { user["email"] }
         end
 
-        button(hx_get: "/contact/#{user["id"]}/edit", class: "btn btn-primary") do
+        button(hx_get: "/contact/#{user["slug"]}/edit", class: "btn btn-primary") do
           "Click To Edit"
         end
       end

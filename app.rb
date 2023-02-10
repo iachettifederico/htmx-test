@@ -22,21 +22,29 @@ class App < Roda
   plugin :render, engine: "slim"
   plugin :all_verbs
 
-  USERS = {
-    "1" => {
-      "id"         => "1",
-      "first_name" => "uno",
-      "last_name"  => "uno",
-      "email"      => "uno@example.com",
-    },
-    "2" => {
-      "id"         => "2",
-      "first_name" => "dos",
-      "last_name"  => "dos",
-      "email"      => "dos@example.com",
-    },
-
+  USERS = %w[tito toto tete tita tota tato].each_with_object({}) { |slug, users_hash|
+    users_hash[slug] = {
+      "slug" => slug,
+      "name" => slug.capitalize,
+      "email" => "slug@example.com",
+    }
   }
+
+  # USERS = {
+  #   "1" => {
+  #     "id"         => "1",
+  #     "first_name" => "uno",
+  #     "last_name"  => "uno",
+  #     "email"      => "uno@example.com",
+  #   },
+  #   "2" => {
+  #     "id"         => "2",
+  #     "first_name" => "dos",
+  #     "last_name"  => "dos",
+  #     "email"      => "dos@example.com",
+  #   },
+
+  # }
 
   route do |r|
 
@@ -50,21 +58,21 @@ class App < Roda
     end
 
     r.on "contact" do
-      r.on :id do |id|
-        user = USERS.fetch(id)
+      r.on :slug do |slug|
+        user = USERS.fetch(slug)
 
         r.root do
           ContactCard.new(user).call
         end
-        
+
         r.is "edit" do
           ContactForm.new(user).call
         end
 
         r.put do
-          USERS[id] = r.params
+          USERS[slug] = r.params
 
-          ContactCard.new(USERS[id]).call
+          ContactCard.new(USERS[slug]).call
         end
       end
     end
